@@ -12,7 +12,6 @@ import { db, auth } from './firebase';
 function getModalStyle() {
   const top = 50;
   const left = 50;
-
   return {
     top: `${top}%`,
     left: `${left}%`,
@@ -22,7 +21,7 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
+    position: "absolute",
     width: 400,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
@@ -32,16 +31,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const classes = useStyles();
+  const classes = useStyles(); //used in modal style @line no 98
   const [modalStyle] = useState(getModalStyle);
 
   const [posts, setPosts] = useState([]);
-  const [open, setOpen] = useState([false]);
+  const [open, setOpen] = useState(false);
+  const [openSignIn, setOpenSignIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [user, setUser] = useState(null);
 
-
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        //if user has logged in
+        console.log(authUser);
+        setUser(authUser); //if the page refreshes then it checks if the user is logged in
+      }
+      else {
+        //if user has logged out
+        setUser(null);
+      }
+    });
+    return () => {
+      //perform some cleanup actions
+      unsubscribe();
+    };
+  }, [user, username]);
 
   useEffect(() => {
     //useEffect runs a peice of code based on specific conditions
@@ -57,16 +74,28 @@ function App() {
     event.preventDefault();
 
     auth
-    .createUserWithEmailAndPassword(email, password)
-    .catch((error) => alert(error.message));
-  }
+      .createUserWithEmailAndPassword(email, password)
+      .then ((authUser) => {
+        return authUser.user.updateProfile({
+          displayName: username
+        });
+      })
+      .catch((error) => alert(error.message)); //check any error while authintication   
+      
+      setOpen(false);
+  };
+
+  const signIn = (event) => {
+    event.preventDefault();
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error.message));
+    setOpenSignIn(false);
+  };
     
   return (
     <div className="app"> 
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)} //if clicked outside modal
-      >
+      <Modal open={open} onClose={() => setOpen(false)}> 
       <div style={modalStyle} className={classes.paper}>
         <form className="signup_form">
           <center>
@@ -80,23 +109,51 @@ function App() {
             placeholder="Username"
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.targe.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <Input 
             placeholder="Email"
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.targe.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input 
             placeholder="Password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.targe.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit" onclick={signUp}>SignUp</Button> 
+          <Button type="submit" onClick={signUp}>SignUp</Button> 
         </form >   
       </div>
+      </Modal>
+      <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
+        <div style={modalStyle} className={classes.paper}>
+          <form className="signIn_form">
+            <center>
+              <img
+                className="signIn_instaLogo"
+                src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+                alt="Instagram Logo"
+              />
+            </center>
+            <Input
+              placeholder="Email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" onClick={signIn}>
+              Sign In
+            </Button>
+          </form>
+        </div>
       </Modal>
                 
       <div className="app_header">          
@@ -105,12 +162,16 @@ function App() {
           src="https://papajfunk.files.wordpress.com/2013/12/instagram-logo.png?w=640"
           alt="Instagram"
         /> 
-        <Button onClick={() => setOpen(true)}> Sign Up </Button>
-
+        {user ? (
+        <Button onClick={() => auth.signOut()}> LogOut </Button>
+        ) : (
+        <div className="app_loginContainer">
+          <Button onClick={() => setOpenSignIn(true)}> Sign In </Button>
+          <Button onClick={() => setOpen(true)}> Sign Up </Button>
+        </div>
+        )}        
       </div>
 
-      
-       
       {
         posts.map(({id, post}) => (
           <Post key={id} username={post.username} caption={post.caption} imageurl={post.imageurl}/>

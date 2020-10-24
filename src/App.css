@@ -21,6 +21,11 @@
   right: 10px;
 }
 
+.app_loginContainer{
+  position: absolute;
+  right: 10px;
+}
+
 .app_headerImage{
   width: 100px;
 }
@@ -34,3 +39,12 @@
   width: 200px;
 }
 
+.signIn_form{
+  display: flex;
+  flex-direction: column;
+}
+
+.signIn_instaLogo{
+  width: 100px;
+  /*height: 30px;*/
+}
