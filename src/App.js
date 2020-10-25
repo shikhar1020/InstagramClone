@@ -7,6 +7,7 @@ import { Button, Input } from '@material-ui/core';
 
 import Post from './post';
 import { db, auth } from './firebase';
+import ImageUpload from './ImageUpload';
 
 
 function getModalStyle() {
@@ -62,7 +63,7 @@ function App() {
 
   useEffect(() => {
     //useEffect runs a peice of code based on specific conditions
-    db.collection('posts').onSnapshot(snapshot => {
+    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => { //order uploaded posts according to timestamp in descending order
       setPosts(snapshot.docs.map( doc => ({
         id: doc.id,
         post: doc.data()
@@ -95,6 +96,7 @@ function App() {
     
   return (
     <div className="app"> 
+  
       <Modal open={open} onClose={() => setOpen(false)}> 
       <div style={modalStyle} className={classes.paper}>
         <form className="signup_form">
@@ -162,6 +164,7 @@ function App() {
           src="https://papajfunk.files.wordpress.com/2013/12/instagram-logo.png?w=640"
           alt="Instagram"
         /> 
+      
         {user ? (
         <Button onClick={() => auth.signOut()}> LogOut </Button>
         ) : (
@@ -169,14 +172,22 @@ function App() {
           <Button onClick={() => setOpenSignIn(true)}> Sign In </Button>
           <Button onClick={() => setOpen(true)}> Sign Up </Button>
         </div>
-        )}        
+        )}      
       </div>
 
       {
         posts.map(({id, post}) => (
-          <Post key={id} username={post.username} caption={post.caption} imageurl={post.imageurl}/>
+          <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
         ))
       }
+      
+      {user?.displayName ? (
+        <ImageUpload username={user.displayName} /> 
+      ): (
+        <center>
+          <h2> Login to Post Image!</h2>
+        </center>
+      )}
 
     </div> 
   );
