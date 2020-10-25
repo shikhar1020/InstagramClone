@@ -9,6 +9,7 @@
 
 .app_header{
   display: flex;
+  justify-content: space-between;
   background-color:white;
   object-fit: contain;
   padding: 20px;
@@ -28,6 +29,7 @@
 
 .app_headerImage{
   width: 100px;
+  object-fit: contain;
 }
 
 .signup_form{

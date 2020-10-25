@@ -58,9 +58,9 @@ function ImageUpload({username}) {
 
     return (
         <div className="image_Uploader">
-            <h1> Image Upload</h1>
+            <h3 className="imageUploader_headline"> Upload Image Here..</h3>
             {/* ImageUploadProgress */}
-            <progress  value={progress} max="100" />
+            <progress className="imageUploader_progressBar" value={progress} max="100" />
             {/* CaptionInput */}
             <input
                 type="text"
