@@ -36,6 +36,30 @@
     padding: 10px;
 }
 
-.post_footer{
+.post_caption{
     display: flex;
+}
+
+.post__comments{
+    margin-left: 15px;
+    
+}
+
+.post_commentBox{
+    display: flex;
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid lightgray;
+}
+
+.post_commentInput{
+    flex:1;
+    border: none;
+    
+}
+
+.post_commentButton{
+    flex: 0;
+    border: none;
+    color: #00B2F9;
 }

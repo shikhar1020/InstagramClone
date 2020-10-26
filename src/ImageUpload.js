@@ -71,7 +71,7 @@ function ImageUpload({username}) {
             {/* File picker */}
             <input type="file" onChange={handleChange} />
             {/* PostButton */}
-            <Button onClick={handleUpload}>Post</Button>
+            <Button onClick={handleUpload}> Post </Button>
         </div>
     )
 }
