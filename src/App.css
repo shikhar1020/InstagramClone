@@ -50,3 +50,22 @@
   width: 100px;
   /*height: 30px;*/
 }
+
+.posts{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.posts_right{
+  margin-left: 20px;
+}
+
+/*
+.posts_left{
+  margin-left:100px;
+}
+
+
+
+*/

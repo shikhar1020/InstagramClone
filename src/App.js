@@ -4,6 +4,7 @@ import './App.css';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Input } from '@material-ui/core';
+import InstagramEmbed from 'react-instagram-embed';
 
 import Post from './post';
 import { db, auth } from './firebase';
@@ -183,14 +184,31 @@ function App() {
         </center>
       )}
 
-      {
-        posts.map(({id, post}) => (
-          <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
-        ))
-      }
 
-
-    </div> 
+    <div className="posts">
+      <div className="posts_left">
+        {
+          posts.map(({id, post}) => (
+            <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
+          ))
+        }
+      </div>
+      <div className="posts_right">
+        <InstagramEmbed
+          url="https://www.instagram.com/p/CGzFQdmlhJiE3gVXI3R_El6yTQ_kv7iI_tt-LU0/?hl=en"
+          maxWidth={320}
+          hideCaption={false}
+          containerTagName='div'
+          protocol=''
+          injectScript
+          onLoading={() => {}}
+          onSuccess={() => {}}
+          onAfterRender={() => {}}
+          onFailure={() => {}}
+        />
+      </div>
+    </div>
+  </div> 
   );
 }
 
