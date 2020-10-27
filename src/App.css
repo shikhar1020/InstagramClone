@@ -19,9 +19,16 @@
   border-bottom: 1px solid lightgray;
 }
 
+.app_headerIcons{
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
 .app_header > Button{
   position: absolute;
   right: 10px;  
+  cursor: pointer;
 }
 
 .app_loginContainer{
@@ -32,6 +39,16 @@
 .app_headerImage{
   width: 100px;
   object-fit: contain;
+  cursor: pointer;
+}
+
+.app_headerIcons {
+  width: 40%;
+  margin: 0 auto;
+  margin-left: 25vw;
+  margin-right: 35vw;
+  /*border: 1px solid blue;
+  margin-left: 300px;*/
 }
 
 .signup_form{

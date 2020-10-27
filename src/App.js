@@ -4,11 +4,18 @@ import './App.css';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Input } from '@material-ui/core';
-import InstagramEmbed from 'react-instagram-embed';
+import InstagramEmbed from "react-instagram-embed";
 
 import Post from './post';
 import { db, auth } from './firebase';
 import ImageUpload from './ImageUpload';
+
+import HomeIcon from '@material-ui/icons/Home';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
+
 
 
 function getModalStyle() {
@@ -165,13 +172,21 @@ function App() {
           src="https://papajfunk.files.wordpress.com/2013/12/instagram-logo.png?w=640"
           alt="Instagram"
         /> 
+
+                  
+        <div className="app_headerIcons">
+          <HomeIcon />
+          <TelegramIcon/>
+          <InstagramIcon />
+          <FavoriteBorderIcon/>
+        </div>
       
         {user ? (
-        <Button onClick={() => auth.signOut()}> LogOut </Button>
+        <Button onClick={() => auth.signOut()}><strong>LogOut</strong> </Button>
         ) : (
         <div className="app_loginContainer">
-          <Button onClick={() => setOpenSignIn(true)}> Sign In </Button>
-          <Button onClick={() => setOpen(true)}> Sign Up </Button>
+          <Button onClick={() => setOpenSignIn(true)}> <strong>Sign In</strong> </Button>
+          <Button onClick={() => setOpen(true)}><strong> Sign Up</strong> </Button>
         </div>
         )}      
       </div>
@@ -189,13 +204,20 @@ function App() {
       <div className="posts_left">
         {
           posts.map(({id, post}) => (
-            <Post key={id} postId={id} username={post.username} user={user} caption={post.caption} imageUrl={post.imageUrl}/>
+            <Post 
+              key={id} 
+              postId={id} 
+              username={post.username} 
+              user={user} 
+              caption={post.caption} 
+              imageUrl={post.imageUrl}
+            />
           ))
         }
       </div>
       <div className="posts_right">
         <InstagramEmbed
-          url="https://www.instagram.com/p/CGzFQdmlhJiE3gVXI3R_El6yTQ_kv7iI_tt-LU0/?hl=en"
+          url="https://www.instagram.com/p/CGzoEJdps-sH0Ufx0tJRR24cnKe5UAq41jKINc0/?hl=en"
           maxWidth={320}
           hideCaption={false}
           containerTagName='div'

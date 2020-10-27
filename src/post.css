@@ -1,11 +1,11 @@
 .post{
     margin-top:20px;
     margin-bottom:40px;
-    /*margin-left: auto;
-    margin-right: auto;*/
+    margin-left: auto;
+    margin-right: auto;
     background-color: white;
     width: 40%;
-    border: 1px solid lightgray
+    border: 1px solid lightgray;
 }
 
 .post_header{
@@ -28,7 +28,8 @@
 .post_image{
     width: 100%;
     object-fit: contain;
-    border-top: 1px solid lightgray
+    border-top: 1px solid lightgray;
+    cursor: pointer;
 }
 
 .post_text{
@@ -42,7 +43,7 @@
 
 .post__comments{
     margin-left: 15px;
-    
+    margin-bottom: 10px;
 }
 
 .post_commentBox{
@@ -55,7 +56,7 @@
 .post_commentInput{
     flex:1;
     border: none;
-    
+    outline: none;
 }
 
 .post_commentButton{
